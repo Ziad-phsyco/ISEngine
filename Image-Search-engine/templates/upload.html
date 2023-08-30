@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Upload</title>
+    <style>
+        .image-container {
+            max-width: 500px;
+            display: flex;
+            flex-wrap: wrap;
+
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .search-results-container {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload an Image</h1>
+    <form method="POST" action="/upload" enctype="multipart/form-data">
+        <input type="file" name="image">
+        <input type="submit" value="Upload">
+    </form>
+
+    {% if image_uploaded %}
+    <h2>Uploaded Image</h2>
+    <div class="image-container">
+        <img src="{{ image_path }}" alt="Uploaded Image">
+    </div>
+    <form method="POST" action="/search">
+        <input type="hidden" name="query_filename" value="{{ image_path }}">
+        <input type="submit" value="Search Similar Images">
+    </form>
+    {% endif %}
+
+    {% if similar_images_found %}
+    <div id="search-results">
+        <h2>Search Results</h2>
+        <div class="search-results-container">
+            {% for image in img_paths %}
+            <div class="image-container">
+                <img src="{{ image }}" alt="Similar Image">
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% endif %}
+
+</body>
+</html>
